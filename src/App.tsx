@@ -1,12 +1,8 @@
+import AppRoutes from "./routes/router";
 
-function App() {
-  
-
+const App = () => {
   return (
-      <div>
-      App started 
-      </div>
-     
+    <AppRoutes />
   )
 }
 
