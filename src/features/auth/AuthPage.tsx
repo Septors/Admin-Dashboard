@@ -1,9 +1,9 @@
-import { useState } from "react"
+
 import AuthForm from "./components/LoginForm"
 
 const AuthPage = () => {
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data:{ email: string; password: string }) => {
         if (data.email && data.password) {
             localStorage.setItem("token", "mock-token");
             return true;

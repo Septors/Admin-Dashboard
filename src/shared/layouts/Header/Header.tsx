@@ -1,4 +1,3 @@
-// Header.tsx
 import { useState } from "react";
 import HeaderInput from "./HeaderInput";
 import LanguageSwitcher from "./HeaderLangSwitch";
