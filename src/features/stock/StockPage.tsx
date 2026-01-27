@@ -18,7 +18,7 @@ const StocksPage = () => {
     const [stocks, setStocks] = useState<StockProps[]>([])
     const [deleteId, setDeleteId] = useState<number | null>(null);
     const [editingProduct, setEditingProduct] = useState<StockProps | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
 
     useEffect(() => {
@@ -35,26 +35,26 @@ const StocksPage = () => {
 
     const handleEdit = (product: StockProps) => {
         setEditingProduct(product);
-        setIsModalOpen(true);
+  
     };
 
     const handleUpdate = (updatedProduct: StockProps) => {
         setStocks(prev =>
             prev.map(p => (p.id === updatedProduct.id ? updatedProduct : p))
         );
-        setIsModalOpen(false);
+
         setEditingProduct(null);
     };
     const openDeleteModal = (id: number) => {
         setDeleteId(id);
-        setIsModalOpen(true);
+
     };
 
     const confirmDelete = () => {
         if (deleteId !== null) {
             setStocks(prev => prev.filter(p => p.id !== deleteId));
         }
-        setIsModalOpen(false);
+
         setDeleteId(null);
     };
 
