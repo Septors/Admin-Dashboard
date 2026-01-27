@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HeaderInput from "./Headerinput";
+import HeaderInput from "./HeaderInput";
 import LanguageSwitcher from "./HeaderLangSwitch";
 import UserProfile from "./HeaderProfile";
 
@@ -37,3 +37,4 @@ const Header = () => {
 };
 
 export default Header;
+
