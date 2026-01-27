@@ -1,124 +1,16 @@
 import { useEffect, useMemo, useState } from "react"
 import { ProductCart, type Product } from "./components/ProductcCart"
-import ProductImg from "../../assets/images/Bitmap.png"
+import { mockProducts } from "./mockData"
+import { getVisibleItems } from "../../utils/products"
 
+type SortType = 'rating' | 'name' | undefined
+type OrderType = 'asc' | 'desc' | undefined
 
-type SortType = 'rating' | 'name' | null
-type OrderType = 'asc' | 'desc' | null
-
-const mockProducts = [
-  {
-    id: 1,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 3,
-    countReview: 131,
-    liked: false
-  },
-  {
-    id: 2,
-    img: ProductImg,
-    name: "Bpple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 3,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  }, {
-    id: 4,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.20,
-    rating: 3,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 5,
-    img: ProductImg,
-    name: "Bpple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 6,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 7,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 3,
-    countReview: 131,
-    liked: false
-  },
-  {
-    id: 8,
-    img: ProductImg,
-    name: "Bpple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 9,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  }, {
-    id: 10,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.20,
-    rating: 3,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 11,
-    img: ProductImg,
-    name: "Bpple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  },
-  {
-    id: 12,
-    img: ProductImg,
-    name: "Apple Watch Series 4",
-    price: 120.00,
-    rating: 4,
-    countReview: 131,
-    liked: true
-  }
-]
 
 const ProductsPage = () => {
   const [page, setPage] = useState(1)
-  const [order, setOrder] = useState<OrderType>(null)
-  const [sort, setSort] = useState<SortType>(null)
+  const [order, setOrder] = useState<OrderType>(undefined)
+  const [sort, setSort] = useState<SortType>(undefined)
   const [limit, setLimit] = useState(9)
   const [products, setProducts] = useState<Product[]>([])
 
@@ -126,7 +18,7 @@ const ProductsPage = () => {
   useEffect(() => {
     setProducts(mockProducts)
   }, [])
-  
+
   useEffect(() => {
     setPage(1)
   }, [sort, order, limit])
@@ -139,76 +31,63 @@ const ProductsPage = () => {
   };
 
   const visibleProducts = useMemo(() => {
-    let res = [...products]
-
-    res.sort((a, b) => {
-      if (sort === 'rating') {
-        return order === 'asc'
-          ? a.rating - b.rating
-          : b.rating - a.rating
-      }
-
-      if (sort === 'name') {
-        return order === 'asc'
-          ? a.name.localeCompare(b.name)
-          : b.name.localeCompare(a.name)
-      }
-
-      return 0
-    })
-
-    const start = (page - 1) * limit
-    const end = start + limit
-
-    return res.slice(start, end)
-  }, [products, page, limit, sort, order])
+    return getVisibleItems(products,sort,order,page,limit)
+  },[products, page, limit, sort, order])
+  
   return (
     <div className="p-[30px]">
       <h3 className="text-[32px] font-bold mb-[10px]">Products</h3>
-      <div className="mb-[24px] text-[14px] font-bold flex gap-[10px] justify-between">
-        <div className="flex gap-[10px]">
+      <div className="mb-6 p-4 bg-white rounded-2xl shadow-sm border border-gray-200 flex justify-between items-end">
+  <div className="flex gap-4">
 
-          <select
-            className="px-6 py-3 text-lg font-bold bg-white border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={sort ?? ''}
+    <div className="flex flex-col gap-1">
+      <span className="text-xs text-gray-500">Sort by</span>
+      <select className="px-4 py-2 text-sm border rounded-lg"
+      value={sort ?? ''}
             onChange={(e) => {
               const value = e.target.value as SortType | ''
-              setSort(value === '' ? null : value)
-            }}
-          >
-            <option value="">—</option>
-            <option value="rating">rating</option>
-            <option value="name">name</option>
-          </select>
-          <select
-            className="px-6 py-3 text-lg font-bold bg-white border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={order ?? ''}
+              setSort(value === '' ? undefined : value)
+            }}>
+        <option value="">-</option>
+        <option value="rating">⭐ Rating</option>
+        <option value="name">🔤 Name</option>
+      </select>
+    </div>
+
+    <div className="flex flex-col gap-1">
+      <span className="text-xs text-gray-500">Order</span>
+      <select className="px-4 py-2 text-sm border rounded-lg"
+      value={order ?? ''}
             onChange={(e) => {
               const value = e.target.value as OrderType | ''
-              setOrder(value === '' ? null : value)
-            }}
-          >
-            <option value="">—</option>
-            <option value="asc">asc</option>
-            <option value="desc">desc</option>
-          </select>
+              setOrder(value === '' ? undefined : value)
+            }}>
+        <option value="">-</option>
+        <option value="asc">⬆ Asc</option>
+        <option value="desc">⬇ Desc</option>
+      </select>
+    </div>
 
+    <button className="self-end text-sm text-gray-400 hover:text-gray-600 underline"
+    onClick={() => {
+              setOrder(undefined),
+                setSort(undefined)
 
-          <button
-            className="px-6 py-3 text-lg font-bold bg-white border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onClick={() => {
-              setOrder(null),
-                setSort(null)
+            }}>
+      Reset
+    </button>
+  </div>
 
-            }}>Reset</button>
-        </div>
-        <select
-          className="px-6 py-3 text-lg font-bold bg-white border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={limit} onChange={(e) => setLimit(+e.target.value)}>
-          <option value="9" className="">9</option>
-          <option value="12">12</option>
-        </select>
-      </div>
+  <div className="flex items-center gap-2">
+    <span className="text-sm text-gray-500">Items:</span>
+    <select className="px-3 py-2 text-sm border rounded-lg"
+     value={limit} onChange={(e) => setLimit(+e.target.value)}>
+      <option value="9">9</option>
+      <option value="12">12</option>
+    </select>
+  </div>
+</div>
+
       <div className="grid grid-cols-3 gap-[30px]">
         {visibleProducts.map(product => (
           <ProductCart
@@ -236,7 +115,7 @@ const ProductsPage = () => {
 
         <button
           className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg hover:bg-blue-600 transition-colors duration-200"
-          onClick={() => setPage(page + 1)}
+          onClick={() => setPage(products.length/limit > page ? page+1:page)}
         >
           ➡
         </button>

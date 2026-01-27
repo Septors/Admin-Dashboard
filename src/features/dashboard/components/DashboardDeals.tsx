@@ -1,22 +1,22 @@
-
 interface Deal {
-  img: string,
-  name: string,
-  location: string,
-  date: string,
-  piece: number,
-  amount: number,
-  status: string
+  img: string;
+  name: string;
+  location: string;
+  date: string;
+  piece: number;
+  amount: number;
+  status: string;
 }
+
 interface DealsData {
-  data: Deal[]
+  data: Deal[];
 }
 
 const DashboardDeals = ({ data }: DealsData) => {
   return (
-    <div >
-      <table className="w-[100%] border-separate border-spacing-y-[24px]">
-        <thead className="bg-[#F1F4F9] h-[48px] rounded-[100px]">
+    <div className="overflow-x-auto">
+      <table className="w-full border-separate border-spacing-y-6 text-center">
+        <thead className="bg-gray-100">
           <tr>
             <th className="rounded-l-lg">Product Name</th>
             <th>Location</th>
@@ -26,11 +26,10 @@ const DashboardDeals = ({ data }: DealsData) => {
             <th className="rounded-r-lg">Status</th>
           </tr>
         </thead>
-
         <tbody>
-          {data.map((deal, index) => (
-            <tr key={index} className="text-center align-middle">
-              <td className="flex gap-5 justify-center items-center">
+          {data.map((deal, idx) => (
+            <tr key={idx} className="align-middle">
+              <td className="flex items-center justify-center gap-2">
                 <img src={deal.img} alt={deal.name} width={32} />
                 {deal.name}
               </td>
@@ -38,13 +37,13 @@ const DashboardDeals = ({ data }: DealsData) => {
               <td>{deal.date}</td>
               <td>{deal.piece}</td>
               <td>${deal.amount.toLocaleString()}</td>
-              <td className="py-[4px] px[14px] rounded-[14px] bg-[#00B69B] text-white">{deal.status}</td>
+              <td className="py-1 px-3 rounded bg-green-500 text-white">{deal.status}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardDeals
+export default DashboardDeals;
