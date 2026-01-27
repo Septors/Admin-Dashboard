@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HeaderInput from "./HeaderInput.tsx";
+import HeaderInput from "./HeaderInput";
 import LanguageSwitcher from "./HeaderLangSwitch";
 import UserProfile from "./HeaderProfile";
 
