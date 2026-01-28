@@ -1,73 +1,114 @@
-# React + TypeScript + Vite
+# Admin Dashboard – Система управління e-commerce
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-Currently, two official plugins are available:
+Повнофункціональна адмін-панель для управління інтернет-магазином з аналітикою, управлінням товарами та замовленнями.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Демо
+**[Відкрити додаток]**
 
-## React Compiler
+**Тестові дані:** будь-який email та пароль (мокова автентифікація)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📋 Основні сторінки
 
-## Expanding the ESLint configuration
+### 1. Сторінка входу (Login)
+- Мокова автентифікація (приймає будь-які дані)
+- Валідація форм (готова до підключення API)
+- Опція "Запам'ятати мене"
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. Аналітика (Dashboard)
+- **Картки статистики:** користувачі, замовлення, продажі, очікуючі
+- **Графік продажів:** візуалізація доходів
+- **Таблиця останніх замовлень:** швидкий перегляд транзакцій
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 3. Управління товарами (Products)
+- Каталог товарів з рейтингами та цінами
+- Фільтрація та сортування
+- Пагінація
+- Кнопки редагування (UI готовий)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 4. Управління замовленнями (Orders)
+- Детальна таблиця замовлень з даними клієнтів
+- Відстеження статусів (Виконано, В обробці, Відхилено, На утриманні)
+- Клієнтська фільтрація за типом та статусом
+- Пагінація
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 5. Склад товарів (Stock)
+- **Повний CRUD функціонал:**
+  - Редагування товарів (модальні вікна/форми)
+  - Видалення товарів з підтвердженням
+  - Перегляд залишків на складі
+- Індикатори доступних кольорів
+- Підготовка для масових операцій
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠 Технічна реалізація
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Ключові можливості
+- **Клієнтська маршрутизація:** React Router із захищеними маршрутами
+- **Управління станом:** React хуки (useState, паттерни useContext)
+- **Робота з даними:** Динамічні компоненти, що приймають масиви та об'єкти
+- **UI компоненти:** Перевикористовувані таблиці, картки, модальні вікна, форми
+- **Пагінація:** Кастомний хук для посторінкової навігації
+- **Фільтрація/сортування:** Клієнтська логіка без зовнішніх бібліотек
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Стек технологій
+- **Frontend:** React 18 + Vite
+- **Стилізація:** Tailwind CSS
+- **Маршрутизація:** React Router DOM
+- **Іконки:** React Icons
+- **Візуалізація даних:** Recharts/Chart.js
+- **Деплой:** Vercel
+
+### Структура проекту
+src/
+├── pages/
+│ ├── Login/ # Сторінка автентифікації
+│ ├── Dashboard/ # Аналітична панель
+│ ├── Products/ # Каталог товарів
+│ ├── Orders/ # Управління замовленнями
+│ └── Stock/ # Склад з CRUD
+├── components/
+│ ├── ui/ # Перевикористовувані UI-компоненти
+│ ├── layout/ # Бічна панель, шапка
+│ └── charts/ # Компоненти графіків
+├── hooks/ # Кастомні хуки
+└── utils/ # Допоміжні функції, мокові дані
+
+text
+
+## 🚀 Швидкий старт
+
+```bash
+# 1. Клонувати репозиторій
+git clone [посилання-на-репозиторій]
+
+# 2. Встановити залежності
+npm install
+
+# 3. Запустити сервер розробки
+npm run dev
+
+# 4. Відкрити http://localhost:5173
+# Використовувати будь-який email та пароль для входу
+📈 Що демонструє цей проект
+✅ Повноцінна архітектура фронтенд-додатку
+✅ Реалізація потоку автентифікації
+✅ Візуалізація даних (графіки, таблиці)
+✅ CRUD-операції з UI-зворотним зв'язком
+✅ Клієнтська фільтрація/пагінація/сортування
+✅ Паттерни перевикористовуваних компонентів
+✅ Чиста структура коду для інтеграції з API
+
+🎯 Заплановані покращення
+Інтеграція з реальним бекенд-API
+
+Redux Toolkit для управління станом
+
+Перемикання темної/світлої теми
+
+Експорт даних у CSV/PDF
+
+Реалтайм-оновлення через WebSockets
+
